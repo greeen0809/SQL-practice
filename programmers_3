@@ -1,18 +1,22 @@
-with fish_info_1 as (
-    select ID
-         , fish_type
-         , case when length <= 10 then 10 else length end as length_new
-    from fish_info
-) , fish_info_2 as (
-    select count(ID) as fish_count
-         , avg(length_new) as avg_length
-         , max(length_new) as max_length
-         , fish_type
-    from fish_info_1
-    group by fish_type
+#특정 조건을 만족하는 물고기별 수와 최대 길이 구하기
+WITH FISH_INFO_1 AS (
+    SELECT ID
+         , FISH_TYPE
+         , CASE WHEN LENGTH is NULL THEN 10 
+                when length <= 10 then 10 
+                ELSE LENGTH END AS LENGTH_NEW
+    FROM FISH_INFO
+) , FISH_INFO_2 AS (
+    SELECT COUNT(ID) AS FISH_COUNT
+         , AVG(LENGTH_NEW) AS AVG_LENGTH
+         , MAX(LENGTH_NEW) AS MAX_LENGTH
+         , FISH_TYPE
+    FROM FISH_INFO_1
+    GROUP BY FISH_TYPE
     )
-select fish_count
-         , max_length
-         , fish_type
-    from fish_info_2
-    where avg_length >= 33
+SELECT FISH_COUNT
+         , MAX_LENGTH
+         , FISH_TYPE
+    FROM FISH_INFO_2
+    WHERE AVG_LENGTH >= 33
+    order by fish_type
