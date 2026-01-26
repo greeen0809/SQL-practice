@@ -1,0 +1,11 @@
+# 부서별 평균 연봉 조회하기
+SELECT HE.DEPT_ID
+     , HD.DEPT_NAME_EN
+     , ROUND(AVG(SAL)) AS AVG_SAL
+FROM HR_EMPLOYEES HE
+LEFT JOIN HR_DEPARTMENT HD ON HE.DEPT_ID = HD.DEPT_ID
+GROUP BY DEPT_ID
+ORDER BY AVG_SAL DESC
+
+# 기억할 것
+## Order by 는 새로 만든 칼럼을 써도 된다. -> 가장 마지막 단계이기 때문
